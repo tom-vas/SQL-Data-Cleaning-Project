@@ -27,8 +27,8 @@ The goal is to transform raw data into a clean, consistent, and analysis-ready d
 
 🗂 Files Included
 
-- [`scripts/Data Cleaning.sql`](scripts/Data%20Cleaning.sql) → Dataset with information about employee layoffs.
-- [`data/layoffs.csv`](data/layoffs.csv) → SQL script for cleaning and preprocessing the layoffs dataset.
+- [`data/layoffs.csv`](data/layoffs.csv) → Dataset with information about employee layoffs.
+- [`scripts/Data Cleaning.sql`](scripts/Data%20Cleaning.sql) → SQL script for cleaning and preprocessing the layoffs dataset.
 <br><br>
 
 📈 Result
