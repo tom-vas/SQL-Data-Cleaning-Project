@@ -1,48 +1,49 @@
-📊 Data Cleaning in SQL — Layoffs Dataset
+# SQL Layoffs Dataset - Data Cleaning
 
-This project focuses on cleaning and preparing a real-world layoffs dataset using SQL.
-The goal is to transform raw data into a clean, consistent, and analysis-ready dataset.
-<br><br>
+This project focuses on **Data Cleaning** of the global tech layoffs dataset.  
+The cleaned and standardized table `layoffs_staging2` serves as the foundation for later **Exploratory Data Analysis (EDA)**.
 
-🔧 Key Steps Performed
+## Objectives
+- Import raw dataset (`layoffs.csv`) into SQL
+- Standardize column names and formats
+- Handle missing values and duplicates
+- Ensure consistent date formats
+- Prepare dataset for analysis and visualization
 
-  &nbsp;&nbsp;
--Created staging tables for safe data manipulation
-  
-  &nbsp;&nbsp;
--Identified and removed duplicate records
-  
-  &nbsp;&nbsp;
--Standardized company, industry, and country values
-  
-  &nbsp;&nbsp;
--Converted date columns to proper DATE format
-  
-  &nbsp;&nbsp;
--Handled blank and null fields
-  
-  &nbsp;&nbsp;
--Removed rows with missing critical information
-<br><br>
+## Dataset
+- **Source:** Public layoffs data (Kaggle/online sources)  
+- **Raw Table:** `layoffs_raw`  
+- **Cleaned Table:** `layoffs_staging2`  
+- **Key Columns:** `company`, `industry`, `country`, `total_laid_off`, `percentage_laid_off`, `funds_raised_millions`, `date`, `stage`
 
-🗂 Files Included
+## SQL Techniques Used
+- Importing and transforming CSV data
+- Removing duplicates and handling NULLs
+- Standardizing text formats (e.g., company names, country names)
+- Converting string dates to SQL `DATE` type
+- Using conditional statements for consistent stage and industry values
 
-- [`data/layoffs.csv`](data/layoffs.csv) → Dataset with information about employee layoffs.
-- [`scripts/Data Cleaning.sql`](scripts/Data%20Cleaning.sql) → SQL script for cleaning and preprocessing the layoffs dataset.
-<br><br>
+## Example Queries
+```sql
+-- Remove duplicates
+DELETE FROM layoffs_raw
+WHERE id NOT IN (
+    SELECT MIN(id)
+    FROM layoffs_raw
+    GROUP BY company, date
+);
 
-📈 Result
+-- Standardize date format
+UPDATE layoffs_raw
+SET date = STR_TO_DATE(date, '%Y-%m-%d');
 
-A fully cleaned dataset suitable for:
+-- Handle missing values
+UPDATE layoffs_raw
+SET total_laid_off = 0
+WHERE total_laid_off IS NULL;
 
-  &nbsp;&nbsp;
--Data analysis
-  
-  &nbsp;&nbsp;
--Dashboards
-  
-  &nbsp;&nbsp;
--Visualizations
-  
-  &nbsp;&nbsp;
--Machine learning input
+-- Create cleaned table
+CREATE TABLE layoffs_staging2 AS
+SELECT *
+FROM layoffs_raw
+WHERE company IS NOT NULL AND date IS NOT NULL;
